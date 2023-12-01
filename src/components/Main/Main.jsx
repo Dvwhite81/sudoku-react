@@ -1,10 +1,16 @@
-import PhaseOne from '../PhaseOne/PhaseOne';
+import { useState } from 'react';
+import Board from '../Board/Board';
+import Info from '../Info/Info';
 import './Main.css';
 
 function Main() {
-  const greeting = 'there';
-
-  return <PhaseOne greeting={greeting} />;
+  const [difficulty, setDifficulty] = useState('Easy');
+  return (
+    <div id="main">
+      <Board />
+      <Info difficulty={difficulty} />
+    </div>
+  );
 }
 
 export default Main;

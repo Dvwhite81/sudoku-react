@@ -1,0 +1,8 @@
+.square {
+  border: 1px solid gray;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: var(--square-size);
+  width: var(--square-size);
+}

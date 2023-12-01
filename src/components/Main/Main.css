@@ -1,0 +1,13 @@
+#main {
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 700px) {
+  #main {
+    grid-template-columns: 15vw 70vw 15vw;
+    grid-template-rows: 80vh 20vh;
+  }
+}
