@@ -1,16 +1,20 @@
 #board {
   border: 2px solid black;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  height: 80vh;
+  grid-column: 2;
+  grid-row: 2;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  height: var(--board-size);
   margin: auto;
-  width: 80vh;
+  width: var(--board-size);
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 1000px) {
  #board {
-  grid-column: 2;
-  grid-row: 1;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: end;
+  margin: 0;
  }
 }

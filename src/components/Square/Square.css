@@ -1,8 +1,22 @@
 .square {
+  align-items: center;
   border: 1px solid gray;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  font-size: xx-large;
   height: var(--square-size);
+  justify-content: center;
   width: var(--square-size);
+  z-index: 1;
+}
+
+.valid {
+  cursor: pointer;
+}
+
+.valid:hover {
+  background-color: lightgray;
+}
+
+.wrong {
+  background-color: red;
 }

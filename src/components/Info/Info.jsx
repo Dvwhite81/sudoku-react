@@ -3,12 +3,12 @@ import InfoBtns from '../InfoBtns/InfoBtns';
 import Numbers from '../Numbers/Numbers';
 import './Info.css';
 
-function Info({ difficulty }) {
+function Info({ difficulty, setCurrentNumber }) {
   return (
     <div id="info">
       <Difficulty difficulty={difficulty} />
       <InfoBtns />
-      <Numbers />
+      <Numbers setCurrentNumber={setCurrentNumber} />
     </div>
   );
 }

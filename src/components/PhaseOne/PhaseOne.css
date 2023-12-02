@@ -1,3 +1,28 @@
-h1 {
-  color: purple;
+#phase-one-container {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  margin: auto;
+  row-gap: 1rem;
+  text-align: center;
+}
+
+#phase-one-btns {
+  display: flex;
+  gap: 2rem;
+}
+
+.btn {
+  background-color: darkgray;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  height: 10vh;
+  width: 10vh;
+}
+
+.btn:hover {
+  background-color: black;
+  color: lightgray;
 }

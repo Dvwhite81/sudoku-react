@@ -1,7 +1,7 @@
 import { getNumbers } from '../../scripts/helpers';
 
-function Numbers() {
-  const numbers = getNumbers();
+function Numbers({ setCurrentNumber }) {
+  const numbers = getNumbers(setCurrentNumber);
 
   return <div id="numbers">{numbers}</div>;
 }

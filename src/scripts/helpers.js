@@ -1,56 +1,94 @@
-import Block from '../components/Block/Block';
-import Cell from '../components/Cell/Cell';
+// import Cell from '../components/Cell/Cell';
 import Square from '../components/Square/Square';
+import Number from '../components/Number/Number';
 
-const getBlocks = () => {
-  const blocks = [];
-  for (let i = 0; i < 9; i++) {
-    const id = `block-${i}`;
-    const block = <Block key={id} id={id} blockI={i} />;
-    blocks.push(block);
-  }
-  return blocks;
-};
-
-const getSquares = (blockI) => {
+const getSquares = (game, grid, currentNumber) => {
   const squares = [];
   for (let i = 0; i < 9; i++) {
-    const id = `square-${blockI}-${i}`;
-    const square = (
-      <Square key={id} id={id} squareI={`${blockI}-${i}`} />
-    );
-    squares.push(square);
+    for (let j = 0; j < 9; j++) {
+      const id = `square-${i}-${j}`;
+      const square = (
+        <Square
+          key={id}
+          id={id}
+          coords={[i, j]}
+          game={game}
+          square={grid[i][j]}
+          currentNumber={currentNumber}
+        />
+      );
+      squares.push(square);
+    }
   }
   return squares;
 };
 
-const getCells = (squareI, styles) => {
+/*
+const getCells = (num, styles) => {
   const cells = [];
   for (let i = 0; i < 9; i++) {
-    const id = `cell-${squareI}-${i}`;
+    const id = `cell-${num}-${i}`;
     const cell = <Cell key={id} id={id} styles={styles} />;
     cells.push(cell);
   }
   return cells;
 };
+*/
 
-const getNumbers = () => {
+const getNumbers = (setCurrentNumber) => {
   const numbers = [];
   for (let i = 1; i < 10; i++) {
     const number = (
-      <div className="number-div">
-        <button
-          id={`number-${i}`}
-          className="number-btn"
-          type="button"
-        >
-          {i}
-        </button>
-      </div>
+      <Number key={i} i={i} setCurrentNumber={setCurrentNumber} />
     );
     numbers.push(number);
   }
   return numbers;
 };
 
-export { getBlocks, getSquares, getCells, getNumbers };
+const convertDifficulty = (type) => {
+  let difficulty;
+  switch (type) {
+    case 'easy':
+      difficulty = 30;
+      break;
+    case 'medium':
+      difficulty = 45;
+      break;
+    case 'hard':
+      difficulty = 60;
+      break;
+    default:
+      break;
+  }
+  return difficulty;
+};
+
+const getSquareStyles = (coords) => {
+  const [x, y] = coords;
+  console.log('[x, y]:', [x, y]);
+  const blocks = [2, 5];
+  const styles = {};
+
+  if (blocks.includes(y)) {
+    styles.borderRight = '2px solid black';
+  } else {
+    styles.borderRight = '1px solid lightgray';
+  }
+
+  if (blocks.includes(x)) {
+    styles.borderBottom = '2px solid black';
+  } else {
+    styles.borderBottom = '1px solid lightgray';
+  }
+
+  return styles;
+};
+
+export {
+  getSquares,
+  // getCells,
+  getNumbers,
+  convertDifficulty,
+  getSquareStyles,
+};
