@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PhaseOne from '../PhaseOne/PhaseOne';
 import PhaseTwo from '../PhaseTwo/PhaseTwo';
 import PhaseThree from '../PhaseThree/PhaseThree';
@@ -13,19 +13,10 @@ function Main() {
   const [numCounts, setNumCounts] = useState(null);
   const [solution, setSolution] = useState(null);
 
-  useEffect(() => {
-    if (!isPhaseOne) {
-      console.log('useEffect');
-      setIsPhaseTwo(true);
-    }
-    if (!isPhaseOne && !isPhaseTwo) {
-      setIsPhaseThree(true);
-    }
-  }, [isPhaseOne, isPhaseTwo]);
-
   return isPhaseOne ? (
     <PhaseOne
       setFalse={setIsPhaseOne}
+      setTrue={setIsPhaseTwo}
       setDifficulty={setDifficulty}
       setGame={setGame}
       setNumCounts={setNumCounts}
@@ -33,6 +24,8 @@ function Main() {
     />
   ) : isPhaseTwo ? (
     <PhaseTwo
+      setFalse={setIsPhaseTwo}
+      setTrue={setIsPhaseThree}
       game={game}
       numCounts={numCounts}
       solution={solution}

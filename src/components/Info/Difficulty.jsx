@@ -1,7 +1,7 @@
 function Difficulty({ difficulty }) {
   return (
     <div id="difficulty">
-      <h4>Difficulty: {difficulty.toUpperCase()}</h4>
+      <h4 id="difficulty-heading">Difficulty: {difficulty.toUpperCase()}</h4>
     </div>
   );
 }

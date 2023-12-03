@@ -1,14 +1,20 @@
-import InfoButton from '../InfoButton/InfoButton';
+import InfoButton from './InfoButton';
 import Undo from '../../assets/images/undo.png';
-import Delete from '../../assets/images/delete.png';
 import Hint from '../../assets/images/hint.png';
-import { handleUndo } from '../../scripts/helpers';
+import { handleUndo, getHint } from '../../scripts/helpers';
 
-function InfoBtns({ game }) {
+function InfoBtns({ setFalse, setTrue, game, numCounts }) {
+  const handleHintClick = () => {
+    getHint(game, numCounts);
+    if (game.checkWin()) {
+      setFalse(false);
+      setTrue(true);
+    }
+  };
+
   const btns = [
     { name: 'undo', source: Undo, func: handleUndo },
-    { name: 'delete', source: Delete, func: handleUndo },
-    { name: 'hint', source: Hint, func: handleUndo },
+    { name: 'hint', source: Hint, func: handleHintClick },
   ];
 
   return (

@@ -1,6 +1,8 @@
-import { highlightBoardNums } from '../../scripts/helpers';
+import { checkNumCountEmpty, highlightBoardNums } from '../../scripts/helpers';
 
-function Number({ i, setCurrentNumber }) {
+function Number({ i, numCounts, setCurrentNumber }) {
+  const btnClass = checkNumCountEmpty(numCounts, i) ? ' hide-number' : '';
+
   const handleNumberClick = (e) => {
     const button = e.target;
     const number = parseInt(button.textContent, 10);
@@ -19,7 +21,7 @@ function Number({ i, setCurrentNumber }) {
     <div key={i} className="number-div">
       <button
         id={`number-${i}`}
-        className="number-btn"
+        className={`number-btn ${btnClass}`}
         type="button"
         onClick={handleNumberClick}
       >

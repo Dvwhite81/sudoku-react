@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  checkActiveNumBtn,
   getSquareStyles,
   handleNumCount,
 } from '../../scripts/helpers';
@@ -8,6 +9,8 @@ import './Square.css';
 function Square({
   id,
   coords,
+  setFalse,
+  setTrue,
   game,
   numCounts,
   square,
@@ -16,13 +19,18 @@ function Square({
   const [numberToShow, setNumberToShow] = useState(square);
   const squareClass = square === ' ' ? 'valid' : '';
   const styles = getSquareStyles(coords);
+
   // eslint-disable-next-line consistent-return
   const handleSquareClick = (e) => {
     const { target } = e;
     if (target.classList.contains('valid')) {
-      if (currentNumber === null) {
+      if (currentNumber === null || checkActiveNumBtn() === false) {
         // eslint-disable-next-line no-alert, no-undef
         return window.alert('Click a number button first!');
+      }
+      if (boardHasIncorrect()) {
+        // eslint-disable-next-line no-alert, no-undef
+        return window.alert('Undo the wrong move first!');
       }
       game.addNumberToGrid(coords, currentNumber);
       setNumberToShow(currentNumber);
@@ -36,6 +44,10 @@ function Square({
         if (numCounts[currentNumber] === 0) {
           currentNumber = null;
         }
+        if (game.checkWin()) {
+          setFalse(false);
+          setTrue(true);
+        }
       }
     }
   };
@@ -43,12 +55,15 @@ function Square({
   const isCorrectSquare = () => {
     const [i, j] = coords;
     const correctSquare = game.getSolution()[i][j];
-    console.log('correctSquare:', correctSquare);
-    console.log('currentNumber:', currentNumber);
     if (correctSquare === currentNumber) {
       return true;
     }
     return false;
+  };
+
+  const boardHasIncorrect = () => {
+    const incorrect = document.querySelectorAll('.wrong');
+    return incorrect.length > 0;
   };
 
   return (

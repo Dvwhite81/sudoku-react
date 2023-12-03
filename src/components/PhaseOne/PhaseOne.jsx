@@ -1,19 +1,16 @@
 import Sudoku from '../Game/Game';
-import {
-  convertDifficulty,
-  getNumCounts,
-} from '../../scripts/helpers';
+import { convertDifficulty, getNumCounts } from '../../scripts/helpers';
 import './PhaseOne.css';
 
 function PhaseOne({
   setFalse,
+  setTrue,
   setDifficulty,
   setGame,
   setNumCounts,
   setSolution,
 }) {
   const handleSubmit = (difficulty) => {
-    console.log('handleSubmit difficulty:', difficulty);
     setDifficulty(difficulty);
     const diffNum = convertDifficulty(difficulty);
     const game = Sudoku();
@@ -24,6 +21,7 @@ function PhaseOne({
     setNumCounts(numCounts);
     setGame(game);
     setFalse(false);
+    setTrue(true);
   };
 
   return (

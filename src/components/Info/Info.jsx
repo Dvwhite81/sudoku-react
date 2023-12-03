@@ -1,14 +1,26 @@
-import Difficulty from '../Difficulty/Difficulty';
-import InfoBtns from '../InfoBtns/InfoBtns';
-import Numbers from '../Numbers/Numbers';
+import Difficulty from './Difficulty';
+import InfoBtns from './InfoBtns';
+import Numbers from './Numbers';
 import './Info.css';
 
-function Info({ game, difficulty, setCurrentNumber }) {
+function Info({
+  setFalse,
+  setTrue,
+  game,
+  numCounts,
+  difficulty,
+  setCurrentNumber,
+}) {
   return (
     <div id="info">
       <Difficulty difficulty={difficulty} />
-      <InfoBtns game={game} />
-      <Numbers setCurrentNumber={setCurrentNumber} />
+      <InfoBtns
+        setFalse={setFalse}
+        setTrue={setTrue}
+        game={game}
+        numCounts={numCounts}
+      />
+      <Numbers numCounts={numCounts} setCurrentNumber={setCurrentNumber} />
     </div>
   );
 }

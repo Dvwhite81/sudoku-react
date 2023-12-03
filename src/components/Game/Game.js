@@ -1,28 +1,10 @@
 const Sudoku = (() => {
   const createGrid = () => {
     const grid = Array.from({ length: 9 }, () => Array(9).fill(' '));
-    const solution = Array.from({ length: 9 }, () =>
-      Array(9).fill(' '),
-    );
+    const solution = Array.from({ length: 9 }, () => Array(9).fill(' '));
 
-    let previousMove = {};
-
-    const printGrid = () => {
-      for (let i = 0; i < grid.length; i++) {
-        if (i !== 0 && i % 3 === 0) {
-          console.log(' -----------------------------');
-        }
-        let string = '';
-        for (let j = 0; j < grid[i].length; j++) {
-          if (j % 3 === 0) {
-            string += '|';
-          }
-          string = `${string} ${grid[i][j]} `;
-        }
-        console.log(`${string}|`);
-      }
-      console.log(' -----------------------------');
-    };
+    const previousMoves = [];
+    const givenSquares = [];
 
     const checkRow = (value, index) => {
       return grid[index].includes(value);
@@ -57,7 +39,6 @@ const Sudoku = (() => {
     };
 
     const generate = (difficulty) => {
-      console.log('GENERATE difficulty:', difficulty);
       let numbers = '123456789';
       for (let i = 0; i < 9 && numbers.length > 0; i++) {
         const index = Math.floor(Math.random() * numbers.length);
@@ -66,6 +47,7 @@ const Sudoku = (() => {
         numbers = numbers.replace(value, '');
       }
 
+      setGivenSquares();
       solveCheck();
       const fullGrid = grid;
       setSolution(fullGrid);
@@ -73,7 +55,6 @@ const Sudoku = (() => {
     };
 
     const applyDifficulty = (difficulty) => {
-      console.log('APPLYDIFFICULTY difficulty:', difficulty);
       for (let i = 0; i < difficulty; ) {
         let found = false;
         let row;
@@ -81,14 +62,11 @@ const Sudoku = (() => {
         while (!found) {
           row = Math.floor(Math.random() * 9);
           col = Math.floor(Math.random() * 9);
-          console.log('1 grid[row][col]:', grid[row][col]);
           if (grid[row][col] !== ' ') {
             found = true;
           }
         }
-        console.log('2 grid[row][col]:', grid[row][col]);
         grid[row][col] = ' ';
-        console.log('3 grid[row][col]:', grid[row][col]);
         i++;
       }
     };
@@ -130,43 +108,26 @@ const Sudoku = (() => {
       return squares;
     };
 
-    const getSingleSquare = (coords) => {
+    const setSingleSquare = (coords, num) => {
       const [i, j] = coords;
-      return grid[i][j];
-    };
-
-    const getHint = () => {
-      let found = false;
-      let square;
-      while (!found) {
-        const i = Math.floor(Math.random() * 9);
-        const j = Math.floor(Math.random() * 9);
-        square = grid[i][j];
-        if (grid[i][j] === ' ') {
-          found = true;
-        }
-      }
-      return square;
+      grid[i][j] = num;
     };
 
     const addNumberToGrid = (coords, number) => {
       const [i, j] = coords;
       const prev = grid[i][j];
       grid[i][j] = number;
-      previousMove = { coords: coords, prev: prev, new: number };
+      previousMoves.push({ coords: coords, prev: prev, new: number });
+      checkWin();
     };
 
     const getLastMove = () => {
-      return {
-        coords: previousMove.coords,
-        prev: previousMove.prev,
-        new: previousMove.new,
-      };
+      return previousMoves[previousMoves.length - 1];
     };
 
     const undoLastMove = () => {
-      console.log('undo previous:', previousMove);
-      previousMove.square = previousMove.prev;
+      const lastMove = getLastMove();
+      setSingleSquare(lastMove.coords, lastMove.prev);
     };
 
     const setSolution = (fullGrid) => {
@@ -180,29 +141,45 @@ const Sudoku = (() => {
 
     const getSolution = () => solution;
 
+    const setGivenSquares = () => {
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          const coords = [i, j];
+          if (grid[i][j] !== ' ') {
+            givenSquares.push(coords);
+          }
+        }
+      }
+    };
+
+    const getGivenSquares = () => givenSquares;
+
+    const checkWin = () => {
+      let win = true;
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (grid[i][j] !== solution[i][j]) {
+            win = false;
+          }
+        }
+      }
+      return win;
+    };
+
     return {
       grid,
-      printGrid,
       generate,
-      checkCol,
-      checkRow,
-      checkBlock,
       getSquares,
-      getSingleSquare,
-      getHint,
       addNumberToGrid,
       getLastMove,
       undoLastMove,
       getSolution,
+      getGivenSquares,
+      checkWin,
     };
   };
   return createGrid;
 })();
 
 export default Sudoku;
-/*
-const sudoku = Sudoku();
-sudoku.generate(50);
-sudoku.printGrid();
-console.log(sudoku.grid[0]);
-*/
