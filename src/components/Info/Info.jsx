@@ -3,11 +3,11 @@ import InfoBtns from '../InfoBtns/InfoBtns';
 import Numbers from '../Numbers/Numbers';
 import './Info.css';
 
-function Info({ difficulty, setCurrentNumber }) {
+function Info({ game, difficulty, setCurrentNumber }) {
   return (
     <div id="info">
       <Difficulty difficulty={difficulty} />
-      <InfoBtns />
+      <InfoBtns game={game} />
       <Numbers setCurrentNumber={setCurrentNumber} />
     </div>
   );

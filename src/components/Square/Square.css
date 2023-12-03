@@ -20,3 +20,7 @@
 .wrong {
   background-color: red;
 }
+
+.highlight {
+  background-color: gold!important;
+}

@@ -42,9 +42,10 @@
   width: 7vh;
 }
 
+.active-btn,
 .info-btn:hover,
 .number-btn:hover {
-  background-color: black;
+  background-color: black!important;
   color: lightgray;
 }
 
@@ -81,6 +82,10 @@
   width: 50%;
 }
 
+.hide-number {
+  visibility: hidden;
+}
+
 @media screen and (min-width: 1000px) {
   #info {
     grid-column: 2;
@@ -100,7 +105,7 @@
     display: grid;
     grid-column: 1;
     grid-row: 2;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .info-btn-div {

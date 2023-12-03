@@ -2,7 +2,7 @@
 import Square from '../components/Square/Square';
 import Number from '../components/Number/Number';
 
-const getSquares = (game, grid, currentNumber) => {
+const getSquares = (game, numCounts, grid, currentNumber) => {
   const squares = [];
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -13,6 +13,7 @@ const getSquares = (game, grid, currentNumber) => {
           id={id}
           coords={[i, j]}
           game={game}
+          numCounts={numCounts}
           square={grid[i][j]}
           currentNumber={currentNumber}
         />
@@ -50,13 +51,13 @@ const convertDifficulty = (type) => {
   let difficulty;
   switch (type) {
     case 'easy':
-      difficulty = 30;
+      difficulty = 25;
       break;
     case 'medium':
       difficulty = 45;
       break;
     case 'hard':
-      difficulty = 60;
+      difficulty = 55;
       break;
     default:
       break;
@@ -66,7 +67,6 @@ const convertDifficulty = (type) => {
 
 const getSquareStyles = (coords) => {
   const [x, y] = coords;
-  console.log('[x, y]:', [x, y]);
   const blocks = [2, 5];
   const styles = {};
 
@@ -85,10 +85,61 @@ const getSquareStyles = (coords) => {
   return styles;
 };
 
+const handleUndo = (game) => {
+  game.undoLastMove();
+  const previousMove = game.getLastMove();
+  const { coords, prev } = previousMove;
+  const square = document.querySelector(`[coords="${coords}"]`);
+  square.textContent = prev;
+  if (square.classList.contains('wrong')) {
+    square.classList.remove('wrong');
+    square.classList.add('valid');
+  }
+};
+
+const getNumCounts = (grid) => {
+  const numCounts = {};
+  for (let i = 1; i < 10; i++) {
+    numCounts[i] = 9;
+  }
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      const num = grid[i][j];
+      numCounts[num] -= 1;
+    }
+  }
+  return numCounts;
+};
+
+const handleNumCount = (numCounts, num) => {
+  numCounts[num] -= 1;
+  if (numCounts[num] === 0) {
+    const button = document.querySelector(`#number-${num}`);
+    button.classList.add('hide-number');
+  }
+};
+
+const highlightBoardNums = (num) => {
+  const numSquares = [];
+  const squares = document.querySelectorAll('.square');
+  squares.forEach((square) => {
+    square.classList.remove('highlight');
+    if (square.textContent === JSON.stringify(num)) {
+      numSquares.push(square);
+    }
+  });
+  numSquares.forEach((square) => square.classList.add('highlight'));
+};
+
 export {
   getSquares,
   // getCells,
   getNumbers,
   convertDifficulty,
   getSquareStyles,
+  handleUndo,
+  getNumCounts,
+  handleNumCount,
+  highlightBoardNums,
 };

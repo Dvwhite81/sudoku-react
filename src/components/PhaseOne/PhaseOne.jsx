@@ -1,9 +1,28 @@
+import Sudoku from '../Game/Game';
+import {
+  convertDifficulty,
+  getNumCounts,
+} from '../../scripts/helpers';
 import './PhaseOne.css';
 
-function PhaseOne({ setFalse, setDifficulty }) {
+function PhaseOne({
+  setFalse,
+  setDifficulty,
+  setGame,
+  setNumCounts,
+  setSolution,
+}) {
   const handleSubmit = (difficulty) => {
     console.log('handleSubmit difficulty:', difficulty);
     setDifficulty(difficulty);
+    const diffNum = convertDifficulty(difficulty);
+    const game = Sudoku();
+    game.generate(diffNum);
+    const solution = game.getSolution();
+    setSolution(solution);
+    const numCounts = getNumCounts(game.grid);
+    setNumCounts(numCounts);
+    setGame(game);
     setFalse(false);
   };
 
