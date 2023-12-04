@@ -12,6 +12,7 @@ function Main() {
   const [game, setGame] = useState(null);
   const [numCounts, setNumCounts] = useState(null);
   const [solution, setSolution] = useState(null);
+  const [message, setMessage] = useState(null);
 
   return isPhaseOne ? (
     <PhaseOne
@@ -30,9 +31,11 @@ function Main() {
       numCounts={numCounts}
       solution={solution}
       difficulty={difficulty}
+      message={message}
+      setMessage={setMessage}
     />
   ) : isPhaseThree ? (
-    <PhaseThree />
+    <PhaseThree setTrue={setIsPhaseOne} setFalse={setIsPhaseThree} />
   ) : null;
 }
 

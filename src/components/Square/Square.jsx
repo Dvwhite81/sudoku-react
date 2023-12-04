@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import {
   checkActiveNumBtn,
   getSquareStyles,
-  handleNumCount,
+  getNumCounts,
+  boardHasIncorrect,
+  updateBoardSquare,
+  hideNumButton,
 } from '../../scripts/helpers';
 import './Square.css';
 
@@ -15,33 +17,31 @@ function Square({
   numCounts,
   square,
   currentNumber,
+  setMessage,
 }) {
-  const [numberToShow, setNumberToShow] = useState(square);
   const squareClass = square === ' ' ? 'valid' : '';
   const styles = getSquareStyles(coords);
 
-  // eslint-disable-next-line consistent-return
   const handleSquareClick = (e) => {
     const { target } = e;
     if (target.classList.contains('valid')) {
       if (currentNumber === null || checkActiveNumBtn() === false) {
-        // eslint-disable-next-line no-alert, no-undef
-        return window.alert('Click a number button first!');
+        setMessage('Click a number button first!');
       }
-      if (boardHasIncorrect()) {
-        // eslint-disable-next-line no-alert, no-undef
-        return window.alert('Undo the wrong move first!');
+      if (boardHasIncorrect(game)) {
+        setMessage('Undo the wrong move first!');
       }
       game.addNumberToGrid(coords, currentNumber);
-      setNumberToShow(currentNumber);
+      updateBoardSquare(coords, currentNumber);
       target.classList.remove('valid');
 
       if (!isCorrectSquare()) {
         target.classList.add('wrong');
       } else {
-        handleNumCount(numCounts, currentNumber);
         target.classList.add('highlight');
-        if (numCounts[currentNumber] === 0) {
+        numCounts = getNumCounts(game.grid);
+        if (numCounts[currentNumber] === 0 && !boardHasIncorrect(game)) {
+          hideNumButton(currentNumber);
           currentNumber = null;
         }
         if (game.checkWin()) {
@@ -61,11 +61,6 @@ function Square({
     return false;
   };
 
-  const boardHasIncorrect = () => {
-    const incorrect = document.querySelectorAll('.wrong');
-    return incorrect.length > 0;
-  };
-
   return (
     <div
       id={id}
@@ -74,7 +69,7 @@ function Square({
       style={styles}
       onClick={handleSquareClick}
     >
-      {numberToShow}
+      {square}
     </div>
   );
 }

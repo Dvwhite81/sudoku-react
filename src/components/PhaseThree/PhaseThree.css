@@ -1,0 +1,9 @@
+#phase-three-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-evenly;
+  margin: 10vh auto;
+  width: 50%;
+}

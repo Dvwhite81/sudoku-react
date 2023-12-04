@@ -113,6 +113,11 @@ const Sudoku = (() => {
       grid[i][j] = num;
     };
 
+    const getSquareByCoords = (coords) => {
+      const [i, j] = coords;
+      return grid[i][j];
+    };
+
     const addNumberToGrid = (coords, number) => {
       const [i, j] = coords;
       const prev = grid[i][j];
@@ -128,6 +133,7 @@ const Sudoku = (() => {
     const undoLastMove = () => {
       const lastMove = getLastMove();
       setSingleSquare(lastMove.coords, lastMove.prev);
+      previousMoves.pop();
     };
 
     const setSolution = (fullGrid) => {
@@ -171,6 +177,7 @@ const Sudoku = (() => {
       grid,
       generate,
       getSquares,
+      getSquareByCoords,
       addNumberToGrid,
       getLastMove,
       undoLastMove,

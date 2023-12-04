@@ -3,7 +3,7 @@ import Undo from '../../assets/images/undo.png';
 import Hint from '../../assets/images/hint.png';
 import { handleUndo, getHint } from '../../scripts/helpers';
 
-function InfoBtns({ setFalse, setTrue, game, numCounts }) {
+function InfoBtns({ setFalse, setTrue, game, numCounts, setMessage }) {
   const handleHintClick = () => {
     getHint(game, numCounts);
     if (game.checkWin()) {
@@ -26,6 +26,7 @@ function InfoBtns({ setFalse, setTrue, game, numCounts }) {
           src={btn.source}
           game={game}
           func={btn.func}
+          setMessage={setMessage}
         />
       ))}
     </div>

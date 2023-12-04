@@ -8,6 +8,7 @@ const getSquares = (
   numCounts,
   grid,
   currentNumber,
+  setMessage,
 ) => {
   const squares = [];
   for (let i = 0; i < 9; i++) {
@@ -24,6 +25,7 @@ const getSquares = (
           numCounts={numCounts}
           square={grid[i][j]}
           currentNumber={currentNumber}
+          setMessage={setMessage}
         />
       );
       squares.push(square);
@@ -86,14 +88,16 @@ const getSquareStyles = (coords) => {
   return styles;
 };
 
-const handleUndo = (game) => {
-  if (!isWrongOnBoard()) {
-    // eslint-disable-next-line no-alert, no-undef
-    window.alert('There are no wrong numbers!');
+const handleUndo = (game, setMessage) => {
+  const previousMove = game.getLastMove();
+  if (previousMove === undefined) {
+    setMessage('There are no moves to undo!');
+  }
+  if (!isWrongOnBoard(game)) {
+    setMessage('There are no wrong numbers!');
   } else {
-    game.undoLastMove();
-    const previousMove = game.getLastMove();
     const { coords, prev } = previousMove;
+    game.undoLastMove();
     resetSquare(coords, prev);
   }
 };
@@ -106,12 +110,22 @@ const resetSquare = (coords, num) => {
   square.classList.remove('wrong');
 };
 
-const isWrongOnBoard = () => {
-  const wrong = document.querySelectorAll('.wrong');
-  if (wrong.length === 0) {
-    return false;
-  }
-  return true;
+const isWrongOnBoard = (game) => {
+  let wrong = false;
+  const solution = game.getSolution();
+  const squares = document.querySelectorAll('.square');
+  squares.forEach((square) => {
+    if (square.textContent !== ' ') {
+      const coords = square.getAttribute('coords').split(',');
+      const [i, j] = coords;
+      const currentNum = parseInt(square.textContent, 10);
+      const correctNum = solution[i][j];
+      if (currentNum !== ' ' && currentNum !== correctNum) {
+        wrong = true;
+      }
+    }
+  });
+  return wrong;
 };
 
 const getNumCounts = (grid) => {
@@ -202,6 +216,34 @@ const applyHint = (coords, game, numCounts, solution) => {
   handleNumCount(numCounts, answer);
 };
 
+const isCorrectSquare = (game, coords, square) => {
+  const [i, j] = coords;
+  const correctSquare = game.getSolution()[i][j];
+  if (correctSquare === square) {
+    return true;
+  }
+  return false;
+};
+
+const boardHasIncorrect = (game) => {
+  let correct = true;
+  const solution = game.getSolution();
+  const squares = document.querySelectorAll('.square');
+  squares.forEach((sq) => {
+    const coords = sq.getAttribute('coords').split(',');
+    const [i, j] = coords;
+    if (game.grid[i][j] !== solution[i][j]) {
+      correct = false;
+    }
+  });
+  return correct;
+};
+
+const updateBoardSquare = (coords, currentNumber) => {
+  const square = document.querySelector(`[coords="${coords}"]`);
+  square.textContent = currentNumber;
+};
+
 export {
   getSquares,
   getNumbers,
@@ -214,4 +256,8 @@ export {
   handleNumCount,
   highlightBoardNums,
   getHint,
+  isCorrectSquare,
+  boardHasIncorrect,
+  updateBoardSquare,
+  hideNumButton,
 };

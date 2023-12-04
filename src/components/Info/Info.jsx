@@ -10,6 +10,7 @@ function Info({
   numCounts,
   difficulty,
   setCurrentNumber,
+  setMessage,
 }) {
   return (
     <div id="info">
@@ -19,6 +20,7 @@ function Info({
         setTrue={setTrue}
         game={game}
         numCounts={numCounts}
+        setMessage={setMessage}
       />
       <Numbers numCounts={numCounts} setCurrentNumber={setCurrentNumber} />
     </div>

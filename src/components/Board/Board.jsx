@@ -1,7 +1,14 @@
 import { getSquares } from '../../scripts/helpers';
 import './Board.css';
 
-function Board({ setFalse, setTrue, game, numCounts, currentNumber }) {
+function Board({
+  setFalse,
+  setTrue,
+  game,
+  numCounts,
+  currentNumber,
+  setMessage,
+}) {
   const { grid } = game;
   const squares = getSquares(
     setFalse,
@@ -10,6 +17,7 @@ function Board({ setFalse, setTrue, game, numCounts, currentNumber }) {
     numCounts,
     grid,
     currentNumber,
+    setMessage,
   );
 
   return <div id="board">{squares}</div>;

@@ -1,4 +1,4 @@
-function InfoButton({ name, src, game, func }) {
+function InfoButton({ name, src, game, func, setMessage }) {
   const label = name.toUpperCase();
 
   return (
@@ -7,7 +7,7 @@ function InfoButton({ name, src, game, func }) {
         id={`${name}-btn`}
         className="info-btn"
         type="submit"
-        onClick={() => func(game)}
+        onClick={() => func(game, setMessage)}
       >
         <img
           id={`${name}-img`}
